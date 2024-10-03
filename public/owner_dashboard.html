@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mess Owner Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Container and General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        strong {
+            font-weight: 600;
+            color: #555;
+        }
+
+        #mess-info {
+            margin-bottom: 20px;
+        }
+
+        #mess-info p {
+            margin: 8px 0;
+        }
+
+        #mess-image {
+            display: block;
+            margin: 10px 0;
+            max-width: 100%;
+            border-radius: 4px;
+        }
+
+        /* Buttons Styling */
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button#logout-btn {
+            background-color: #FF4136;
+        }
+
+        button#logout-btn:hover {
+            background-color: #e63930;
+        }
+
+        #message {
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Mess Owner Dashboard</h2>
+        <div id="mess-info">
+            <p><strong>Name:</strong> <span id="mess-name"></span></p>
+            <p><strong>Location:</strong> <span id="mess-address"></span></p>
+            <p><strong>Menu:</strong> <span id="mess-menu"></span></p>
+            <p><strong>Owner:</strong> <span id="mess-owner"></span></p>
+            <p><strong>Image:</strong></p>
+            <img id="mess-image" src="" alt="Mess Image">
+        </div>
+
+        <button id="update-mess-btn">Update Mess Info</button>
+        <button id="logout-btn">Logout</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        // Fetch mess information after the owner logs in
+        async function fetchMessInfo() {
+            try {
+                const response = await fetch('/owners/dashboard');
+                const messData = await response.json();
+
+                if (response.ok) {
+                    // Populate mess information on the dashboard
+                    document.getElementById('mess-name').textContent = messData.name;
+                    document.getElementById('mess-address').textContent = messData.address;
+                    document.getElementById('mess-menu').textContent = messData.menu;
+                    document.getElementById('mess-owner').textContent = messData.owner;
+                    document.getElementById('mess-image').src = messData.image;
+                } else {
+                    document.getElementById('message').textContent = messData.message;
+                }
+            } catch (error) {
+                console.error('Error fetching mess info:', error);
+                document.getElementById('message').textContent = 'An error occurred. Please try again.';
+            }
+        }
+
+        // Call the fetchMessInfo function on page load
+        window.onload = fetchMessInfo;
+
+        // Update Mess Info Button Event
+        document.getElementById('update-mess-btn').addEventListener('click', function() {
+            window.location.href = 'update_mess.html'; // Redirect to update mess page
+        });
+
+        // Logout Button Event
+        document.getElementById('logout-btn').addEventListener('click', async function() {
+            try {
+                const response = await fetch('/owners/logout', { method: 'POST' });
+
+                if (response.ok) {
+                    window.location.href = 'owner_login.html'; // Redirect to login page after logout
+                } else {
+                    document.getElementById('message').textContent = 'Logout failed. Please try again.';
+                }
+            } catch (error) {
+                console.error('Error during logout:', error);
+                document.getElementById('message').textContent = 'An error occurred. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>

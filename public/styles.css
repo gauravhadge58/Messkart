@@ -1,0 +1,256 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Section Styles */
+section {
+    padding: 20px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.how-it-works {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 20px; /* Space between steps */
+}
+
+.step {
+    display: flex;
+    align-items: center; /* Center align items vertically */
+}
+
+.step img {
+    width: 200px; /* Adjust image size */
+     /* Adjust image size */
+    margin-right: 15px; /* Space between image and text */
+    padding: 10px;
+}
+
+/* Section Styles */
+.available-mess {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to next line */
+    gap: 20px; /* Space between tiles */
+    justify-content: center; /* Center align tiles */
+    padding: 20px;
+}
+
+.mess-tile {
+    background-color: white; /* Background for the tile */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    padding: 15px; /* Internal padding */
+    text-align: center; /* Center text */
+    width: 200px; /* Fixed width for tiles */
+}
+
+.mess-tile img {
+    width: 100%; /* Full width for the image */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px; /* Rounded corners for the image */
+}
+
+.mess-tile h3 {
+    margin: 10px 0 5px; /* Space above and below the title */
+    font-size: 1.2em; /* Title font size */
+}
+
+.mess-tile p {
+    font-size: 0.9em; /* Smaller font size for location */
+    color: #555; /* Grey color for text */
+}
+
+.step p {
+    font-size: 1.1em; /* Moderate font size for text */
+}
+
+/* Section Styles */
+.user-reviews {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to next line */
+    gap: 20px; /* Space between tiles */
+    justify-content: center; /* Center align tiles */
+    padding: 20px;
+}
+
+.review-tile {
+    background-color: white; /* Background for the tile */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    padding: 15px; /* Internal padding */
+    text-align: center; /* Center text */
+    width: 200px; /* Fixed width for tiles */
+}
+
+.review-tile h3 {
+    margin: 10px 0; /* Space above and below the title */
+    font-size: 1.2em; /* Title font size */
+}
+
+.review-tile p {
+    font-size: 0.9em; /* Smaller font size for review */
+    color: #555; /* Grey color for text */
+}
+
+.rating {
+    margin-top: 10px; /* Space above the rating */
+}
+
+.star {
+    color: #FFD700; /* Gold color for stars */
+    font-size: 1.2em; /* Star size */
+}
+
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+/* Header with Navigation at the Bottom */
+header {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; /* Space between logo and nav */
+    align-items: center; /* Center align items horizontally */
+    padding: 20px 30px;
+    background-color: #4CAF50;
+    height: 180px; /* Set a fixed height for the header */
+    position: relative;
+}
+
+header .logo {
+    text-align: center; /* Center the logo text */
+    color: white; /* Text color for the logo */
+    font-size: 2em; /* Adjust font size for emphasis */
+}
+
+nav {
+    width: 100%; /* Full width for navigation */
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Center the navigation items */
+    gap: 30px; /* Space between navigation items */
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    font-size: 1.1em; /* Moderate font size */
+    font-weight: bold;
+    padding: 10px 20px; /* Add padding for better spacing */
+}
+
+nav ul li a:hover {
+    background-color: #45a049;
+    border-radius: 5px;
+}
+
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background-color: #ffffff;
+    background-image: url('hero-bg.jpg'); /* Replace with your actual image path */
+    background-size: cover; /* Cover the entire section */
+    background-position: center; /* Center the image */
+    color: #fff;
+    background-image: url('tiffin.jpeg'); /* Optional: Add a background image */
+    background-size: cover;
+    background-position: center;
+    height:400px;
+}
+
+.hero h1 {
+    font-size: 3em; /* Keep font size as it was */
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.hero button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.hero button:hover {
+    background-color: #45a049;
+}
+
+/* Section Styles */
+section {
+    padding: 20px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.get-started {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #4CAF50; /* Same background color as header */
+    color: white; /* White text for contrast */
+}
+
+.get-started h2 {
+    font-size: 2em; /* Large font size for emphasis */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+.get-started p {
+    font-size: 1.2em; /* Moderate font size for the description */
+    margin-bottom: 30px; /* Space below the paragraph */
+}
+
+.get-started button {
+    background-color: white; /* White background for button */
+    color: #4CAF50; /* Green text for the button */
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.get-started button:hover {
+    background-color: #e7e7e7; /* Light gray on hover */
+}
+
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+footer a {
+    color: white;
+    font-weight: bold;
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MessKart - Choose Your Meals</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>MessKart</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign Up</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="owner_login.html">Login(Mess Owners)</a></li>
+                <li><a href="owner_signup.html">SignUp(Mess Owners)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Welcome to MessKart</h1>
+        <p>Join our community to vote for your daily meals through WhatsApp!</p>
+        <button onclick="window.location.href='/signup.html'">Get Started</button>
+    </section>
+
+    <section>
+        <h2>How MessKart Works</h2>
+        <div class="how-it-works">
+            <div class="step">
+                <img src="1.png" alt="Step 1" />
+                <p>1. Subscribe and join the MessKart WhatsApp community.</p>
+            </div>
+            <div class="step">
+                <img src="2.png" alt="Step 2" />
+                <p>2. Vote for your daily meals using WhatsApp polls.</p>
+            </div>
+            <div class="step">
+                <img src="tiffin.jpeg" alt="Step 3" />
+                <p>3. Enjoy budget-friendly meals tailored to your taste!</p>
+            </div>
+        </div>
+        <button onclick="window.location.href='/how-it-works.html'">Learn More</button>
+    </section>
+    
+    <section>
+        <h2>See Available Mess in Your Area</h2>
+        <div class="available-mess" id="available-mess">
+            <!-- Mess tiles will be populated here -->
+        </div>
+    </section>
+    
+    <section>
+        <h2>What Users Say About MessKart</h2>
+        <div class="user-reviews" id="user-reviews">
+            <!-- Reviews will be populated here -->
+        </div>
+    </section>
+
+    <section class="get-started">
+        <h2>Get Started with MessKart!</h2>
+        <p>Join our community today and vote for your meals!</p>
+        <button onclick="window.location.href='/signup.html'">Get Started</button>
+    </section>
+
+    <footer id="contact">
+        <p>Contact us via WhatsApp: <a href="https://wa.me/8698864600">Chat Now</a></p>
+    </footer>
+
+    <script>
+        async function fetchMesses() {
+            try {
+                const response = await fetch('/messes'); // Fetch mess data from the backend
+                const messes = await response.json();
+    
+                const messContainer = document.getElementById('available-mess');
+                messContainer.innerHTML = ''; // Clear existing content
+    
+                messes.forEach(mess => {
+                    const messTile = document.createElement('div');
+                    messTile.classList.add('mess-tile');
+    
+                    messTile.innerHTML = `
+                        <img src="${mess.image}" alt="${mess.name}" />
+                        <h3>${mess.name}</h3>
+                        <p>Location: ${mess.location}</p>
+                    `;
+    
+                    messContainer.appendChild(messTile);
+                });
+            } catch (error) {
+                console.error('Error fetching messes:', error);
+            }
+        }
+
+        async function fetchReviews() {
+            try {
+                const response = await fetch('/reviews');
+                const reviews = await response.json();
+    
+                const reviewsContainer = document.querySelector('.user-reviews');
+                reviewsContainer.innerHTML = ''; // Clear existing content
+    
+                reviews.forEach(review => {
+                    const reviewTile = document.createElement('div');
+                    reviewTile.classList.add('review-tile');
+    
+                    reviewTile.innerHTML = `
+                        <h3>${review.username}</h3>
+                        <p>"${review.comment}"</p>
+                        <div class="rating">
+                            ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                        </div>
+                    `;
+    
+                    reviewsContainer.appendChild(reviewTile);
+                });
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+            }
+        }
+    
+        // Call the functions to fetch messes and reviews when the page loads
+        window.onload = async () => {
+            await fetchMesses();
+            await fetchReviews();
+        };
+    </script>
+</body>
+</html>

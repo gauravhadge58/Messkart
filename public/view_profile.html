@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - MessKart</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            padding: 10px 0;
+            color: #fff;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .container {
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        .profile-section {
+            margin-bottom: 30px;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 20px;
+        }
+
+        .profile-info div {
+            flex: 0 0 45%;
+            margin-bottom: 10px;
+        }
+
+        .profile-info label {
+            font-weight: bold;
+            display: block;
+            color: #007bff;
+        }
+
+        .btn-back {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <h1>MessKart Profile</h1>
+    </div>
+
+    <!-- Profile Container -->
+    <div class="container">
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <h2>Your Profile</h2>
+            <div class="profile-info">
+                <div>
+                    <label>Full Name:</label>
+                    <p id="user-name">[User Name]</p>
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <p id="user-email">[User Email]</p>
+                </div>
+                <div>
+                    <label>Phone Number:</label>
+                    <p id="user-phone">[User Phone]</p>
+                </div>
+                <div>
+                    <label>Address:</label>
+                    <p id="user-address">[User Address]</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <a href="dashboard.html" class="btn-back">Back to Dashboard</a>
+    </div>
+
+    <script>
+        // Fetch the user profile data from the server
+        fetch('/profile')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update profile information
+                document.getElementById('user-name').textContent = data.name || "Not provided";
+                document.getElementById('user-email').textContent = data.email || "Not provided";
+                document.getElementById('user-phone').textContent = data.phone || "Not provided";
+                document.getElementById('user-address').textContent = data.address || "Not provided";
+            })
+            .catch(error => {
+                console.error('Error fetching profile data:', error);
+            });
+    </script>
+</body>
+</html>

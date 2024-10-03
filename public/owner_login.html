@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Login - MessKart</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* General Page Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container Styling */
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #007bff;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Message Styling */
+        #message {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: red;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Mess Owner Login</h2>
+        <form id="owner-login-form">
+            <div class="form-group">
+                <label for="owner-name">Owner Name:</label>
+                <input type="text" id="owner-name" name="owner" required>
+            </div>
+            <div class="form-group">
+                <label for="owner-password">Password:</label>
+                <input type="password" id="owner-password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <p id="message"></p> <!-- Display login status message -->
+    </div>
+
+    <script>
+        document.getElementById('owner-login-form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = {
+                owner: document.getElementById('owner-name').value,
+                password: document.getElementById('owner-password').value
+            };
+
+            try {
+                const response = await fetch('/owners/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    window.location.href = 'owner_dashboard.html'; // Redirect to dashboard on successful login
+                } else {
+                    document.getElementById('message').textContent = data.message; // Display error message
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('message').textContent = 'An error occurred. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>

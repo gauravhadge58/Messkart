@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Mess Info</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Container and General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input, textarea {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            outline: none;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #007bff;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Message styling */
+        #message {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: red;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Update Mess Information</h2>
+        <form id="update-mess-form">
+            <div class="form-group">
+                <label for="name">Mess Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+
+            <div class="form-group">
+                <label for="menu">Menu (Separate items with commas or new lines):</label>
+                <textarea id="menu" name="menu" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Image URL:</label>
+                <input type="url" id="image" name="image" required>
+            </div>
+
+            <button type="submit">Update Mess Info</button>
+            <p id="message"></p>
+        </form>
+    </div>
+
+    <script>
+        // Fetch current mess data and populate the form fields
+        async function fetchMessInfo() {
+            try {
+                const response = await fetch('/owners/dashboard');
+                const messData = await response.json();
+
+                if (response.ok) {
+                    // Populate form fields with current mess information
+                    document.getElementById('name').value = messData.name;
+                    document.getElementById('location').value = messData.address;
+                    document.getElementById('menu').value = messData.menu.join(', '); // Convert array to string for textarea
+                    document.getElementById('image').value = messData.image;
+                } else {
+                    document.getElementById('message').textContent = messData.message;
+                }
+            } catch (error) {
+                console.error('Error fetching mess info:', error);
+                document.getElementById('message').textContent = 'An error occurred. Please try again.';
+            }
+        }
+
+        // Call the fetchMessInfo function on page load
+        window.onload = fetchMessInfo;
+
+        // Handle form submission for updating mess info
+        document.getElementById('update-mess-form').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevent the form from submitting the traditional way
+
+            const menuInput = document.getElementById('menu').value;
+
+            // Convert menu string into an array by splitting by commas or newlines
+            const menuArray = menuInput.split(/\n|,/).map(item => item.trim()).filter(item => item.length > 0);
+
+            const formData = {
+                name: document.getElementById('name').value,
+                location: document.getElementById('location').value,
+                menu: menuArray, // Store as an array
+                image: document.getElementById('image').value
+            };
+
+            try {
+                const response = await fetch('/owners/update-mess', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('message').textContent = 'Mess information updated successfully!';
+                    window.location.href = 'owner_dashboard.html'; 
+                } else {
+                    document.getElementById('message').textContent = result.message;
+                }
+            } catch (error) {
+                console.error('Error updating mess info:', error);
+                document.getElementById('message').textContent = 'An error occurred. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>

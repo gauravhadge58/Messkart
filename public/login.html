@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MessKart</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        /* Background image */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('mess.webp'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px); /* Adjust blur strength */
+            z-index: 0; /* Send it to back */
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative; /* Position relative to the body */
+            z-index: 1; /* Bring it to front */
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .signup-link {
+            margin-top: 15px;
+        }
+
+        .signup-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login to MessKart</h2>
+
+        <!-- Login form starts -->
+        <form  id="login-form">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+        <!-- Login form ends -->
+
+        <div class="signup-link">
+            <p>Don't have an account? <a href="signup.html">Sign Up here</a>.</p>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById('login-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const result = await response.json();  // Parse JSON once
+
+        // Check if the response is ok (status code 200-299)
+        if (response.ok) {
+            console.log(name);
+            alert(result.message);  // Alert the message
+            localStorage.setItem('username',email);
+            // Example of setting a cookie after successful signup/login
+            document.cookie = "username=" + encodeURIComponent(email) + "; path=/; max-age=3600"; // Expires in 1 hour
+
+            window.location.href = '/dashboard.html';  // Redirect to dashboard on success
+        } else {
+            alert(result.message);  // Show the error message in case of failure
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    }
+});
+
+</script>
+</html>

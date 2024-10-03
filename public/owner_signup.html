@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Sign Up - MessKart</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container Styling */
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input, textarea {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            outline: none;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #007bff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up as a Mess Owner</h2>
+        <form id="owner-signup-form">
+            <div class="form-group">
+                <label for="owner-name">Owner Name:</label>
+                <input type="text" id="owner-name" name="owner" required>
+            </div>
+            <div class="form-group">
+                <label for="mess-name">Mess Name:</label>
+                <input type="text" id="mess-name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="mess-address">Address:</label>
+                <input type="text" id="mess-address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="mess-image">Image URL:</label>
+                <input type="text" id="mess-image" name="image" required>
+            </div>
+            <div class="form-group">
+                <label for="mess-menu">Menu (Separate items with commas or new lines):</label>
+                <textarea id="mess-menu" name="menu" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="owner-password">Password:</label>
+                <input type="password" id="owner-password" name="password" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('owner-signup-form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const menuInput = document.getElementById('mess-menu').value;
+            
+            // Convert menu string into an array by splitting by commas or newlines
+            const menuArray = menuInput.split(/\n|,/).map(item => item.trim()).filter(item => item.length > 0);
+
+            const formData = {
+                owner: document.getElementById('owner-name').value,
+                name: document.getElementById('mess-name').value,
+                address: document.getElementById('mess-address').value,
+                image: document.getElementById('mess-image').value,
+                menu: menuArray,  // Storing as an array
+                password: document.getElementById('owner-password').value
+            };
+
+            try {
+                const response = await fetch('/owners/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                const data = await response.json();
+                alert(data.message); // Display success or error message
+                if (response.ok) {
+                    document.getElementById('owner-signup-form').reset(); // Reset form
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
