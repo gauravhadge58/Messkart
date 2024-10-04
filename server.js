@@ -27,10 +27,7 @@ app.use(session({
 }));
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://gauravhadge58:Gaurav%402908@messkart.4a377.mongodb.net/trial', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+mongoose.connect('mongodb+srv://gauravhadge58:Gaurav%402908@messkart.4a377.mongodb.net/trial');
 
 // Check for connection success
 mongoose.connection.once('open', () => {
